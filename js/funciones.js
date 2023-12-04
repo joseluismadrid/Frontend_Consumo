@@ -240,7 +240,7 @@ const editarAcudiente = () => {
 
 if (document.querySelector('#btnRegistrar')) { //Si objeto exitste
     document.querySelector('#btnRegistrar')
-        .addEventListener('click', registrarUsuario)
+        .addEventListener('click', registrarUsuario) 
 
 }
 
@@ -271,7 +271,7 @@ const eliminarAcudiente = async (nombreCompleto) => {
         const json = await response.json();
         Swal.fire({
             position: "center",
-            icon: "error",
+            icon: "success",
             title: (json.msg),
             showConfirmButton: false,
             timer: 1500
