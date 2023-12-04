@@ -1,7 +1,7 @@
 const url = 'https://api-acudiente.onrender.com/acudiente '
 //const url = 'http://localhost:8585/acudiente'
 const regresarListar = () => {
-    window.location.href = 'listar.html';
+    window.location.href = 'index.html';
 }
 const listarAcudiente = async () => {
     let objectId = document.getElementById('contenido')
