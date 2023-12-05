@@ -1,5 +1,5 @@
-const url = 'https://api-acudiente.onrender.com/acudiente '
-//const url = 'http://localhost:8585/acudiente'
+// const url = 'https://api-acudiente.onrender.com/acudiente '
+const url = 'http://localhost:8585/acudiente'
 const regresarListar = () => {
     window.location.href = 'index.html';
 }
@@ -25,6 +25,9 @@ const listarAcudiente = async () => {
                     `<td>` + acudientes.parentesco + `</td>` +
                     `<td>` + acudientes.estado + `</td>` +
                     `<td>` + acudientes.telefono + `</td>` +
+                    `<td>` + acudientes.fechaNacimiento + `</td>` +
+                    `<td>` + acudientes.direccion + `</td>` +
+                    `<td>` + acudientes.ciudad + `</td>` +
                     `<td>` + acudientes.observacion + `</td>` +
                     `<td> <button type="button" onclick="redirreccionarEditar('${objectoAcudiente}')" class="btn btn-primary">Editar</button>
                      <button type="button" onclick=" confirmarEliminar('${acudientes.nombreCompleto}')"" class="btn btn-danger">Eliminar</button></td>` +
@@ -197,7 +200,6 @@ const actualizarUsuario = () => {
         })
             .then((res) => res.json())//Obtener respuesta de la petición
             .then(json => {
-
                 Swal.fire({
                     position: "center",
                     icon: "success",
