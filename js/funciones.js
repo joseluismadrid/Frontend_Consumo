@@ -1,5 +1,5 @@
-// const url = 'https://api-acudiente.onrender.com/acudiente '
-const url = 'http://localhost:8585/acudiente'
+const url = 'https://api-acudiente.onrender.com/acudiente '
+//const url = 'http://localhost:8585/acudiente'
 const regresarListar = () => {
     window.location.href = 'index.html';
 }
