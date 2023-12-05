@@ -26,8 +26,8 @@ const listarAcudiente = async () => {
                     `<td>` + acudientes.estado + `</td>` +
                     `<td>` + acudientes.telefono + `</td>` +
                     `<td>` + acudientes.observacion + `</td>` +
-                    `<td> <button type="button" onclick="redirreccionarEditar('${objectoAcudiente}')" class="btn btn-primary">Editar</button></td>` +
-                    `<td> <button type="button" onclick=" confirmarEliminar('${acudientes.nombreCompleto}')"" class="btn btn-danger">Eliminar</button></td>` +
+                    `<td> <button type="button" onclick="redirreccionarEditar('${objectoAcudiente}')" class="btn btn-primary">Editar</button>
+                     <button type="button" onclick=" confirmarEliminar('${acudientes.nombreCompleto}')"" class="btn btn-danger">Eliminar</button></td>` +
 
                     `</tr>`
             })

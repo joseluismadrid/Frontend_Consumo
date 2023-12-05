@@ -8,7 +8,7 @@ html {
 
 }
 
-.tabla {
+#tabla {
     display: grid;
     place-items: center;
     margin: 10px, auto;
