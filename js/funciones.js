@@ -1,11 +1,14 @@
-const url = 'https://api-acudiente.onrender.com/acudiente '
-//const url = 'http://localhost:8585/acudiente'
+ const url = 'https://api-acudiente.onrender.com/acudiente '
+// const url = 'http://localhost:8585/acudiente'
+
 const regresarListar = () => {
     window.location.href = 'index.html';
 }
 const listarAcudiente = async () => {
     let objectId = document.getElementById('contenido')
     let contenido = '';
+
+        await valorDolar ();
     fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -29,8 +32,10 @@ const listarAcudiente = async () => {
                     `<td>` + acudientes.direccion + `</td>` +
                     `<td>` + acudientes.ciudad + `</td>` +
                     `<td>` + acudientes.observacion + `</td>` +
+                    `<td>` + acudientes.preciodolar + `</td>` +
+                    
                     `<td> <button type="button" onclick="redirreccionarEditar('${objectoAcudiente}')" class="btn btn-primary">Editar</button>
-                     <button type="button" onclick=" confirmarEliminar('${acudientes.nombreCompleto}')"" class="btn btn-danger">Eliminar</button></td>` +
+                     <button type="button" onclick=" eliminarAcudiente('${acudientes.nombreCompleto}')"" class="btn btn-danger">Eliminar</button></td>` +
 
                     `</tr>`
             })
@@ -40,7 +45,24 @@ const listarAcudiente = async () => {
 
 
         })
+     
 }
+const valorDolar = async () => {
+    try {
+        const response = await fetch('https://www.datos.gov.co/resource/mcec-87by.json');
+        if (!response.ok) {
+            throw new Error('no se puede obtener el precio del dólar');
+        }
+        const data = await response.json();
+        const preciodolar= parseFloat(data[0].valor);
+        document.getElementById('dolar').value = preciodolar.toFixed(2);
+    } catch (error) {
+        console.error(error.message);
+      
+    }
+};
+document.addEventListener('DOMContentLoaded',valorDolar)
+
 
 const registrarUsuario = () => {
     const nombre = document.getElementById('Nombre').value;
@@ -53,6 +75,7 @@ const registrarUsuario = () => {
     const direccion = document.getElementById('Direccion').value
     const ciudad = document.getElementById('ciudad').value
     const observacion = document.getElementById('observaciones').value
+    const dolar = document.getElementById('dolar').value
 
 
 
@@ -87,6 +110,9 @@ const registrarUsuario = () => {
     else if (observacion == 0) {
         document.getElementById('observacionesHelp').innerHTML = 'Dato requerido'
     }
+    else if (dolar == 0) {
+        document.getElementById('dolarHelp').innerHTML = 'Dato requerido'
+    }
     else {
         let Acudiente = {
             nombreCompleto: nombre, //lo primero es la clave, lo segundo es lo que se va a enviar.
@@ -98,7 +124,8 @@ const registrarUsuario = () => {
             fechaNacimiento: fecha,
             direccion: direccion,
             ciudad: ciudad,
-            observacion: observacion
+            observacion: observacion,
+            preciodolar: dolar
 
         }
         //Fecth permite reaizar peticiones http a una url
@@ -110,13 +137,14 @@ const registrarUsuario = () => {
         })
             .then((res) => res.json())//Obtener respuesta de la petición
             .then(json => {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: (json.msg),
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                alert(json.msg)
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: (json.msg),
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
 
                 setTimeout(() => {
                     regresarListar();
@@ -125,8 +153,11 @@ const registrarUsuario = () => {
 
 
             })
-
+           
+            valorDolar ()
     }
+
+
 
 }
 
@@ -142,6 +173,7 @@ const actualizarUsuario = () => {
     const direccion = document.getElementById('Direccion').value
     const ciudad = document.getElementById('ciudad').value
     const observacion = document.getElementById('observaciones').value
+    const dolar = document.getElementById('dolar').value
 
 
 
@@ -177,6 +209,9 @@ const actualizarUsuario = () => {
     else if (observacion == 0) {
         document.getElementById('observacionesHelp').innerHTML = 'Dato requerido'
     }
+    else if (dolar == 0) {
+        document.getElementById('dolarHelp').innerHTML = 'Dato requerido'
+    }
     else {
         let Acudiente = {
             nombreCompleto: nombre, //lo primero es la clave, lo segundo es lo que se va a enviar.
@@ -188,7 +223,8 @@ const actualizarUsuario = () => {
             fechaNacimiento: fecha,
             direccion: direccion,
             ciudad: ciudad,
-            observacion: observacion
+            observacion: observacion,
+            preciodolar: dolar
 
         }
         //Fecth permite reaizar peticiones http a una url
@@ -200,13 +236,14 @@ const actualizarUsuario = () => {
         })
             .then((res) => res.json())//Obtener respuesta de la petición
             .then(json => {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: (json.msg),
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                alert(json.msg)
+                // Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: (json.msg),
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
 
                 setTimeout(() => {
                     regresarListar();
@@ -215,7 +252,9 @@ const actualizarUsuario = () => {
 
                 //Imprimir el mensaje de la transacción
             })
+            valorDolar ()
     }
+    
 
 }
 
@@ -237,12 +276,13 @@ const editarAcudiente = () => {
     document.getElementById('Direccion').value = urlparams.get('direccion');
     document.getElementById('ciudad').value = urlparams.get('ciudad');
     document.getElementById('observaciones').value = urlparams.get('observacion');
+    document.getElementById('dolar').value = urlparams.get('preciodolar');
 
 }
 
 if (document.querySelector('#btnRegistrar')) { //Si objeto exitste
     document.querySelector('#btnRegistrar')
-        .addEventListener('click', registrarUsuario) 
+        .addEventListener('click', registrarUsuario)
 
 }
 
@@ -271,13 +311,14 @@ const eliminarAcudiente = async (nombreCompleto) => {
         }
 
         const json = await response.json();
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: (json.msg),
-            showConfirmButton: false,
-            timer: 1500
-        });
+        alert(json.msg)
+        // Swal.fire({
+        //     position: "center",
+        //     icon: "success",
+        //     title: (json.msg),
+        //     showConfirmButton: false,
+        //     timer: 1500
+        // });
 
         setTimeout(() => {
             regresarListar();
@@ -293,24 +334,23 @@ const eliminarAcudiente = async (nombreCompleto) => {
     }
 
 };
-function confirmarEliminar(nombreCompleto) {
+// function confirmarEliminar(nombreCompleto) {
 
 
-    Swal.fire({
-        title: "¿Estás seguro de que deseas eliminar este Acudiente?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Aceptar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            eliminarAcudiente(nombreCompleto);
-        }
-    });
+//     Swal.fire({
+//         title: "¿Estás seguro de que deseas eliminar este Acudiente?",
+//         icon: "warning",
+//         showCancelButton: true,
+//         confirmButtonColor: "#3085d6",
+//         cancelButtonColor: "#d33",
+//         confirmButtonText: "Aceptar"
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             eliminarAcudiente(nombreCompleto);
+//         }
+//     });
 
 
 
-}
-
+// }
 
